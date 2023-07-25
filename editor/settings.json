@@ -1,0 +1,27 @@
+{
+  "json.schemaDownload.enable": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "python.formatting.provider": "none",
+  "python.formatting.blackArgs": [
+    "--config=pyproject.toml"
+  ],
+  "python.linting.enabled": true,
+  "python.linting.lintOnSave": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": [
+    "--config=.flake8"
+  ],
+  "[python]": {
+    "editor.wordBasedSuggestions": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "isort.args": [
+    "--settings-file",
+    ".isort.cfg"
+  ],
+  "isort.check": true
+}

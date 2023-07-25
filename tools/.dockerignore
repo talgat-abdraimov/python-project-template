@@ -1,0 +1,11 @@
+.bash_history
+.cache
+.env*
+.git
+.idea
+Dockerfile*
+docker-compose.*
+venv
+env*
+.dockerignore
+docker/
