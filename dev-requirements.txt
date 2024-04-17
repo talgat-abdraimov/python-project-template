@@ -1,0 +1,16 @@
+-r requirements.txt
+
+pre-commit
+ruff
+
+pytest
+pytest-asyncio
+pytest-cov
+pytest-deadfixtures
+pytest-env
+pytest-freezegun
+pytest-mock
+pytest-xdist
+pytest-httpx
+pytest-factoryboy
+freezegun
