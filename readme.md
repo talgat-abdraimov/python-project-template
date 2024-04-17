@@ -36,6 +36,4 @@ Ruff aims to be orders of magnitude faster than alternative tools while integrat
 
 ### pytest
 
-The pytest framework makes it easy to write small, readable tests, and can scale to support complex functional testing for applications and libraries.
-
-[see more](https://docs.pytest.org/en/7.4.x/)
+The pytest framework makes it easy to write small, readable tests, and can scale to support complex functional testing for applications and libraries. [see more](https://docs.pytest.org/en/7.4.x/)
