@@ -1,6 +1,6 @@
 # python project template
 
-Very opinionated python project template
+This is a highly opinionated template for Python projects.
 
 ---
 
@@ -16,7 +16,7 @@ Very opinionated python project template
 
 5. Click **Create repository from template**.
 
-> **Note:** More detailed [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template)
+> **Note:** More details can be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template)
 
 ---
 
