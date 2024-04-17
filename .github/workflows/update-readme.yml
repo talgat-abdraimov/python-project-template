@@ -13,15 +13,15 @@ jobs:
         run: |
           if git rev-list --count HEAD <= 1
           then
-            echo "::set-output name=initial_commit::true"
+            echo "initial_commit=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=initial_commit::false"
+            echo "initial_commit=false" >> $GITHUB_OUTPUT
           fi
       - name: Change README
         if: steps.check.outputs.initial_commit == 'true'
         run: |
           echo "Repo Created" > README.md
           git add README.md
-          git commit -m "Added README.mdt"
+          git commit -m "Added README.md"
           git push
 
