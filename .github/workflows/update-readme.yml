@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   check-initial-commit:
+    if: !github.event.repository.is_template
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,22 +19,21 @@ jobs:
       - name: check if initial commit
         id: check
         run: |
-          if git rev-list --count HEAD <= 1
+          if git rev-list --count HEAD <= 2
           then
             echo "initial_commit=true" >> $GITHUB_OUTPUT
           else
             echo "initial_commit=false" >> $GITHUB_OUTPUT
           fi
+
       - name: Change README
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: >-
-          ${{ !github.event.repository.is_template
-              && steps.check.outputs.initial_commit == 'true' }}
+        if: steps.check.outputs.initial_commit == 'true'
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-          echo "Repo Created" > README.md
+          echo "${{github.event.repository.full_name}} project" > README.md
           git add README.md
-          git commit -m "Added README.md"
+          git commit -m "Changed README.md"
           git push
