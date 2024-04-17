@@ -18,8 +18,6 @@ This is a highly opinionated template for Python projects.
 
 > **Note:** More details can be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template)
 
----
-
 ## Tools
 
 ### pre-commit

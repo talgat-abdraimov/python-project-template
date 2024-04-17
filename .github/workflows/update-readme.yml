@@ -1,0 +1,21 @@
+# write workflow that checks if a repository is created from the template and updates readme in the created repository
+name: Repo Created
+
+on:
+  repository_dispatch:
+    types: [created]
+
+jobs:
+  update-readme:
+    if: !github.event.repository.is_template
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Update README
+        run: |
+          echo "This repository was created from a template" >> README.md
+          git add README.md
+          git commit -m "Update README"
+          git push
+
