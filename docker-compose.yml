@@ -1,0 +1,22 @@
+version: '3.8'
+
+x-common-variables: &common-variables
+  DEBUG: False
+
+
+services:
+  app:
+    build: .
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./code:/app/code
+    environment:
+      DEBUG: True
+      <<: *common-variables
+    command: uvicorn code.app:app --host 0.0.0.0 --port 8000 --reload
+
+networks:
+  default:
+    name: ms_network
+    external: true
