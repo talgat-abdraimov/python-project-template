@@ -19,12 +19,14 @@ jobs:
       - name: check if initial commit
         id: check
         run: |
-          if git rev-list --count HEAD <= 2
+          if git rev-list --count HEAD <= 1
           then
             echo "initial_commit=true" >> $GITHUB_OUTPUT
           else
             echo "initial_commit=false" >> $GITHUB_OUTPUT
           fi
+
+          echo "initial_commit=$(cat $GITHUB_OUTPUT)"
 
       - name: Change README
         env:
