@@ -4,7 +4,6 @@ on: push
 
 jobs:
   check-initial-commit:
-    if: !github.event.repository.is_template
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,6 +22,6 @@ jobs:
         run: |
           echo "Repo Created" > README.md
           git add README.md
-          git commit -m "Initial commit"
+          git commit -m "Added README.mdt"
           git push
 
