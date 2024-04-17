@@ -1,6 +1,6 @@
 name: Repo Created
 
-on:
+on: push
 
 jobs:
   check-initial-commit:
