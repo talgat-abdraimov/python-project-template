@@ -1,6 +1,12 @@
 name: Repo Created
 
-on: push
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
 
 jobs:
   check-initial-commit:
@@ -8,6 +14,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: check if initial commit
         id: check
         run: |
@@ -18,10 +25,15 @@ jobs:
             echo "initial_commit=false" >> $GITHUB_OUTPUT
           fi
       - name: Change README
-        if: steps.check.outputs.initial_commit == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: >-
+          ${{ !github.event.repository.is_template
+              && steps.check.outputs.initial_commit == 'true' }}
         run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
           echo "Repo Created" > README.md
           git add README.md
           git commit -m "Added README.md"
           git push
-
