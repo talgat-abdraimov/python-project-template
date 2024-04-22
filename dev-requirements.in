@@ -1,7 +1,8 @@
--r requirements.txt
+-r requirements.in
 
 pre-commit
 ruff
+pip-tools
 
 pytest
 pytest-asyncio
