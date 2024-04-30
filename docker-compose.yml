@@ -14,7 +14,7 @@ services:
     environment:
       DEBUG: True
       <<: *common-variables
-    command: uvicorn code.app:app --host 0.0.0.0 --port 8000 --reload
+    command: echo "Hello, world!"
 
 networks:
   default:
