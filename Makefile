@@ -1,10 +1,12 @@
 dev-deps:
-  # Compile and Install dev dependencies
-	pip-compile -o dev-requirements.txt dev-requirements.in
+	@echo "Compiling and Installing dev-requirements.txt..."
+	@pip-compile -o dev-requirements.txt dev-requirements.in
+	@pip install -r dev-requirements.txt
 
 deps:
-  # Compile and Install dependencies
-  pip-compile -o requirements.txt requirements.in
+	@echo "Compiling and Installing requirements.txt..."
+	@pip-compile -o requirements.txt requirements.in
+	@pip install -r requirements.txt
 
 ruff:
   # Run ruff checks
