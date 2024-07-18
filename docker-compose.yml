@@ -12,11 +12,10 @@ services:
     volumes:
       - ./code:/app/code
     environment:
-      DEBUG: True
       <<: *common-variables
     command: echo "Hello, world!"
 
 networks:
   default:
-    name: ms_network
+    name: app-network
     external: true

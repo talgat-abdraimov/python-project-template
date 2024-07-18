@@ -20,9 +20,11 @@ This is a highly opinionated template for Python projects.
 
 7. Clone locally created repository `git clone git@github.com/{your-new-repo}.git` and open the project in your fav IDE.
 
-8. Create a virtual environment for project `python -m venv venv` then activate it `source ./venv/bin/activate`
+8. Install the package installer [uv](https://github.com/astral-sh/uv) `pip install uv`
 
-9. Install [pip-tools](https://pip-tools.readthedocs.io/en/stable/) `pip install pip-tools` and type in terminal `make dev-deps`
+9. Create a virtual environment for project `uv venv` then activate it `source .venv/bin/activate`
+
+9. Run in terminal `make dev-deps`
 
 ## Tools
 
@@ -41,3 +43,7 @@ Ruff aims to be significantly faster than alternative tools while integrating mo
 ### pytest
 
 The pytest framework makes it easy to write small, readable tests, and can scale to support complex functional testing for applications and libraries. [see more](https://docs.pytest.org/en/7.4.x/)
+
+### uv
+
+An extremely fast Python package installer and resolver, written in Rust. Designed as a drop-in replacement for common pip and pip-tools workflows. [see more](https://github.com/astral-sh/uv)
