@@ -16,7 +16,7 @@ This is a highly opinionated template for Python projects.
 
 5. Click **Create repository from template**.
 
-6. Wait about 20 seconds then refresh this page. [GitHub Actions](https://docs.github.com/en/actions) will automatically update the README.md
+6. Wait about **20 seconds** then refresh this page. [GitHub Actions](https://docs.github.com/en/actions) will automatically update the README.md
 
 7. Clone locally created repository `git clone git@github.com/{your-new-repo}.git` and open the project in your fav IDE.
 
