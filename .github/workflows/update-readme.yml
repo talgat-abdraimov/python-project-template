@@ -49,3 +49,17 @@ jobs:
           git rm .github/workflows/update-readme.yml
           git commit -m "Remove initial commit workflow"
           git push
+
+      - name: Create develop branch
+        if: steps.check.outputs.initial_commit == 'true'
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git checkout -b develop
+          git push -u origin develop
+
+      - name: Promote develop to default branch
+        if: steps.check.outputs.initial_commit == 'true'
+        run: |
+          gh api -X PATCH /repos/${{ github.repository }} \
+            -f default_branch=develop
