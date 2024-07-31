@@ -55,13 +55,5 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-          git checkout -b develop
+          git branch -m main develop
           git push -u origin develop
-
-      - name: Promote develop to default branch
-        if: steps.check.outputs.initial_commit == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh api -X PATCH /repos/${{ github.repository }} \
-            -f default_branch=develop
