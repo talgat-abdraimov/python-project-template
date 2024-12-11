@@ -1,8 +1,5 @@
-version: '3.8'
-
 x-common-variables: &common-variables
   DEBUG: False
-
 
 services:
   app:
