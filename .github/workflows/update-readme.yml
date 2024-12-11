@@ -40,17 +40,17 @@ jobs:
           echo "---" >> README.md
           echo "## Usage" >> README.md
           echo "" >> README.md
-          echo '1. Clone the project: `git clone git@github.com:{your-username}/${{github.event.repository.name}}.git`' >> README.md
+          echo '1. Clone the project: ```git clone git@github.com:{your-username}/${{github.event.repository.name}}.git```' >> README.md
           echo "" >> README.md
-          echo '2. 'Go to the project folder: `cd ${{github.event.repository.name}}`' >> README.md
+          echo '2. 'Go to the project folder: ```cd ${{github.event.repository.name}}```' >> README.md
           echo "" >> README.md
-          echo "3. Create virtual environment for project: `make venv`" >> README.md
+          echo '3. Create virtual environment for project: ```make venv```' >> README.md
           echo "" >> README.md
-          echo "4. Activate virtual environment: `source ./venv/bin/activate`" >> README.md
+          echo '4. Activate virtual environment: ```source ./venv/bin/activate```' >> README.md
           echo "" >> README.md
-          echo "5. Install dependencies: `make dev-deps`" >> README.md
+          echo '5. Install dependencies: ```make dev-deps```' >> README.md
           echo "" >> README.md
-          echo "6. Run build command: `make build`" >> README.md
+          echo '6. Run build command: ```make build```' >> README.md
           git add README.md
           git commit -m "Changed README.md"
           git push
