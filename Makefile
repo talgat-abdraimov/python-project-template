@@ -1,5 +1,10 @@
+venv:
+	@echo "Creating virtual environment..."
+	@uv venv
+
 dev-deps:
 	@echo "Compiling and Installing dev-requirements.txt..."
+	@uv pip compile -o requirements.txt requirements.in
 	@uv pip compile -o dev-requirements.txt dev-requirements.in
 	@uv pip install -r dev-requirements.txt
 
