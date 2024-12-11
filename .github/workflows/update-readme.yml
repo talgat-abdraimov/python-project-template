@@ -51,7 +51,6 @@ jobs:
           echo "5. Install dependencies: `make dev-deps`" >> README.md
           echo "" >> README.md
           echo "6. Run build command: `make build`" >> README.md
-          echo '```' >> README.md
           git add README.md
           git commit -m "Changed README.md"
           git push
