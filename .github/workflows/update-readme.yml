@@ -37,6 +37,17 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
           echo "# ${{github.event.repository.name}} project :wave:" > README.md
+          echo "---" >> README.md
+          echo "## Usage" >> README.md
+          echo "```bash" >> README.md
+          echo "git clone git@github.com:${{github.event.repository.name}}.git" >> README.md
+          echo "cd ${{github.event.repository.name}}" >> README.md
+          echo "```" >> README.md
+          echo "---" >> README.md
+          echo "## build the project" >> README.md
+          echo "```bash" >> README.md
+          echo "make build" >> README.md
+          echo "```" >> README.md
           git add README.md
           git commit -m "Changed README.md"
           git push
