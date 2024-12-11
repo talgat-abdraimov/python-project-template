@@ -24,7 +24,7 @@ This is a highly opinionated template for Python projects.
 
 9. Create a virtual environment for project `uv venv` then activate it `source .venv/bin/activate`
 
-9. Run in terminal `make dev-deps`
+10. Run in terminal `make dev-deps`
 
 ## Tools
 
