@@ -51,6 +51,10 @@ jobs:
           echo '5. Install dependencies: ```make dev-deps```' >> README.md
           echo "" >> README.md
           echo '6. Run build command: ```make build```' >> README.md
+          echo "" >> README.md
+          echo '7. Start the application: ```make up```' >> README.md
+          echo "" >> README.md
+          echo '8. Install pre-commit hooks: ```pre-commit install```' >> README.md
           git add README.md
           git commit -m "Changed README.md"
           git push

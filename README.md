@@ -26,6 +26,10 @@ This is a highly opinionated template for Python projects.
 
 10. Run in terminal `make dev-deps`
 
+11. Run in terminal `make build`
+
+12. Run in terminal `make up`
+
 ## Tools
 
 ### pre-commit
