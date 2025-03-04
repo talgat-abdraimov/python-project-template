@@ -1,7 +1,7 @@
 default_language_version:
   python: python3.10
 
-files: ^code/
+files: ^src/
 
 exclude: ^.git/
   ^__pycache__/
