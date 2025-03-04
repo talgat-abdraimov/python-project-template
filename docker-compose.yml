@@ -7,7 +7,7 @@ services:
     ports:
       - "8001:8000"
     volumes:
-      - ./code:/app/code
+      - ./src:/app/src
     environment:
       <<: *common-variables
     command: echo "Hello, world!"
