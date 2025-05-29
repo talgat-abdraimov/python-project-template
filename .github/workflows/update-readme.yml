@@ -37,7 +37,7 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
           echo "Deleting LICENSE file"
-          rm LICENSE
+          rm -f LICENSE
           echo "# ${{github.event.repository.name}} project :wave:" > README.md
           echo "---" >> README.md
           echo "## Usage" >> README.md
