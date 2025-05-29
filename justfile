@@ -51,3 +51,19 @@ lint:
 test:
     @echo "Running tests..."
     pytest .
+
+# Run all quality checks
+check:
+    @echo "Running all quality checks..."
+    @just lint
+    @just test
+
+clean:
+    @echo "Cleaning up..."
+    @rm -rf .pytest_cache
+    @rm -rf .ruff_cache
+    @rm -rf .mypy_cache
+    @rm -rf .coverage
+    @rm -rf htmlcov/
+    @find . -type d -name __pycache__ -exec rm -rf {} +
+    @find . -name "*.pyc" -delete
