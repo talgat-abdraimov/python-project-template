@@ -9,7 +9,9 @@ This is a highly opinionated template for Python projects that provides a solid 
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
-- Python 3.8 or higher
+
+- Python 3.10 or higher
+
 - [uv](https://github.com/astral-sh/uv) - Fast Python package installer
 - [just](https://github.com/casey/just) - Command runner
 - Docker and Docker Compose - For containerization

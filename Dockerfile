@@ -1,19 +1,30 @@
 FROM python:3.12.0-slim-bookworm
 
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PIP_NO_CACHE_DIR=1
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
-ENV PYTHONDONTWRITEBYTECODE 1
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+  --no-install-recommends \
+  build-essential \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-COPY ./requirements.txt .
+# Create user first
+RUN groupadd -g 1000 appgroup && \
+  useradd -r -u 1000 -g appgroup app
 
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt && rm requirements.txt
+# Copy and install dependencies as root
+COPY --chown=app:appgroup requirements.txt .
+RUN pip install --upgrade pip && \
+  pip install --no-cache-dir -r requirements.txt && \
+  rm requirements.txt
 
-RUN groupadd -g 1000 appgroup &&  useradd -r -u 1000 -g appgroup app
+# Copy source code
+COPY --chown=app:appgroup src ./src
 
-COPY src ./src
-
-RUN chown -R app:appgroup /app
-
+# Switch to non-root user
 USER 1000:1000

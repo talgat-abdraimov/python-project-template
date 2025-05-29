@@ -40,7 +40,7 @@ jobs:
           echo "---" >> README.md
           echo "## Usage" >> README.md
           echo "" >> README.md
-          echo '1. Clone the project: ```git clone git@github.com:{your-username}/${{github.event.repository.name}}.git```' >> README.md
+          echo '1. Clone the project: ```git clone git@github.com:${{github.repository_owner}}/${{github.event.repository.name}}.git```' >> README.md
           echo "" >> README.md
           echo '2. Go to the project folder: ```cd ${{github.event.repository.name}}```' >> README.md
           echo "" >> README.md
