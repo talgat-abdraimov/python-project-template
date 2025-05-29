@@ -29,6 +29,15 @@ jobs:
             echo "initial_commit=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Delete LICENSE file
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          rm -f LICENSE
+          git add LICENSE
+          git commit -m "Delete LICENSE file"
+          git push
+
       - name: Change README
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,8 +45,6 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-          echo "Deleting LICENSE file"
-          rm LICENSE
           echo "# ${{github.event.repository.name}} project :wave:" > README.md
           echo "---" >> README.md
           echo "## Usage" >> README.md
