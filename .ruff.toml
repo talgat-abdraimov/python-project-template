@@ -49,6 +49,10 @@ select = [
   "T20",
   "ARG",
   "FIX",
+  "ERA",
+  "B",
+  "A",
+  "C4",
 ]
 ignore = ["TD003"]
 fixable = ["ALL"]
