@@ -1,0 +1,74 @@
+name: Adjust Claude.md on First Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  adjust-claude-md:
+    name: "Adjust Claude.md for new repository"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "📥 Checkout Repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "🔍 Check if Already Adjusted"
+        id: check
+        run: |
+          # Check if claude.md still contains placeholders
+          if grep -q "<reponame>" claude.md 2>/dev/null; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Claude.md contains placeholders and needs updating"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Claude.md has already been adjusted"
+          fi
+
+      - name: "🔧 Update Claude.md"
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          # Get repository name (without owner)
+          REPO_NAME="${{ github.event.repository.name }}"
+
+          # Get repository description (use a default if empty)
+          REPO_DESC="${{ github.event.repository.description }}"
+          if [ -z "$REPO_DESC" ]; then
+            REPO_DESC="A Python project built with modern tooling and best practices"
+          fi
+
+          # Get repository owner
+          REPO_OWNER="${{ github.repository_owner }}"
+
+          # Get current date
+          CURRENT_DATE=$(date +"%Y-%m-%d")
+
+          # Replace placeholders in claude.md
+          sed -i "s|<reponame>|${REPO_NAME}|g" claude.md
+          sed -i "s|<description>|${REPO_DESC}|g" claude.md
+          sed -i "s|<owner>|${REPO_OWNER}|g" claude.md
+          sed -i "s|<date>|${CURRENT_DATE}|g" claude.md
+
+          # Show the changes for verification
+          echo "✨ Updated claude.md with:"
+          echo "  📦 Repository: ${REPO_NAME}"
+          echo "  📝 Description: ${REPO_DESC}"
+          echo "  👤 Owner: ${REPO_OWNER}"
+          echo "  📅 Date: ${CURRENT_DATE}"
+
+      - name: "💾 Commit and Push Changes"
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Commit and push changes
+          git add claude.md
+          git commit -m "🤖 Auto-update claude.md with repository information"
+          git push
+
+          echo "✅ Successfully updated and pushed claude.md"
