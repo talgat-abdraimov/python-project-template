@@ -12,15 +12,23 @@ jobs:
 
     steps:
       - name: "📥 Checkout Repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
-
+      - name: Check if initial commit
+        id: check_initial_commit
+        run: |
+          if [ $(git rev-list --count HEAD) -le 1 ]
+          then
+            echo "initial_commit=true" >> $GITHUB_OUTPUT
+          else
+            echo "initial_commit=false" >> $GITHUB_OUTPUT
+          fi
       - name: "🔍 Check if Already Adjusted"
         id: check
         run: |
-          # Check if claude.md still contains placeholders
-          if grep -q "<reponame>" claude.md 2>/dev/null; then
+          # Check if claude.md still contains placeholders && is initial commit
+          if grep -q "<reponame>" claude.md 2>/dev/null && [ "${{ steps.check_initial_commit.outputs.initial_commit }}" == "true" ]; then
             echo "needs_update=true" >> $GITHUB_OUTPUT
             echo "Claude.md contains placeholders and needs updating"
           else
@@ -61,6 +69,8 @@ jobs:
 
       - name: "💾 Commit and Push Changes"
         if: steps.check.outputs.needs_update == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Configure git
           git config user.name "github-actions[bot]"
