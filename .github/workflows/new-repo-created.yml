@@ -122,6 +122,6 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-          git rm .github/workflows/update-readme.yml
+          git rm .github/workflows/new-repo-created.yml
           git commit -m "Remove initial commit workflow"
           git push
