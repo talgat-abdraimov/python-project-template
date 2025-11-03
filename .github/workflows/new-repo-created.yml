@@ -123,37 +123,6 @@ jobs:
             echo "⚠️ TEMPLATE_CLAUDE.md not found, skipping CLAUDE.md creation..."
           fi
 
-      - name: Configure branch protection
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: steps.check.outputs.initial_commit == 'true'
-        run: |
-          echo "🔒 Configuring branch protection for main branch..."
-
-          # Configure branch protection rules using GitHub CLI
-          gh api -X PUT "/repos/${{ github.repository }}/branches/main/protection" \
-            --input - <<EOF
-          {
-            "required_status_checks": null,
-            "enforce_admins": false,
-            "required_pull_request_reviews": {
-              "dismiss_stale_reviews": true,
-              "require_code_owner_reviews": false,
-              "required_approving_review_count": 1
-            },
-            "restrictions": null,
-            "required_linear_history": false,
-            "allow_force_pushes": false,
-            "allow_deletions": false,
-            "block_creations": false,
-            "required_conversation_resolution": true,
-            "lock_branch": false,
-            "allow_fork_syncing": true
-          }
-          EOF
-
-          echo "✅ Branch protection configured successfully"
-
       - name: Remove current workflow
         if: steps.check.outputs.initial_commit == 'true'
         run: |
