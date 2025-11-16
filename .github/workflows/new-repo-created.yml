@@ -111,6 +111,9 @@ jobs:
             echo "  👤 Owner: ${REPO_OWNER}"
             echo "  📅 Date: ${CURRENT_DATE}"
 
+            # Remove the template file
+            rm -f TEMPLATE_CLAUDE.md
+
             # Commit the changes
             git config user.name github-actions[bot]
             git config user.email github-actions[bot]@users.noreply.github.com
