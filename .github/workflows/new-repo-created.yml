@@ -53,19 +53,15 @@ jobs:
           echo "" >> README.md
           echo '2. Go to the project folder: ```cd ${{github.event.repository.name}}```' >> README.md
           echo "" >> README.md
-          echo '3. Install the package installer [uv](https://github.com/astral-sh/uv): ```pip install uv```' >> README.md
+          echo '3. Install [uv](https://github.com/astral-sh/uv): ```pip install uv```' >> README.md
           echo "" >> README.md
-          echo '4. Create virtual environment: ```uv venv```' >> README.md
+          echo '4. Sync dependencies: ```just sync```' >> README.md
           echo "" >> README.md
-          echo '5. Activate virtual environment: ```source .venv/bin/activate```' >> README.md
+          echo '5. Build the Docker container: ```just build```' >> README.md
           echo "" >> README.md
-          echo '6. Install development dependencies: ```just dev-deps```' >> README.md
+          echo '6. Start the application: ```just up```' >> README.md
           echo "" >> README.md
-          echo '7. Build the Docker container: ```just build```' >> README.md
-          echo "" >> README.md
-          echo '8. Start the application: ```just up```' >> README.md
-          echo "" >> README.md
-          echo '9. Install pre-commit hooks: ```pre-commit install```' >> README.md
+          echo '7. Install pre-commit hooks: ```pre-commit install```' >> README.md
           echo "" >> README.md
           echo "> **Note:** This project has been tested and verified only on macOS. While it may work on other operating systems, we cannot guarantee full compatibility." >> README.md
           git add README.md

@@ -1,20 +1,24 @@
-# Create virtual environment
-venv:
-    @echo "Creating virtual environment..."
-    @uv venv
+# Sync all dependencies (creates .venv automatically)
+sync:
+    @echo "Syncing dependencies..."
+    @uv sync
 
-# Install development dependencies
-dev-deps:
-    @echo "Compiling and Installing dev-requirements.txt..."
-    @uv pip compile -o requirements.txt requirements.in
-    @uv pip compile -o dev-requirements.txt dev-requirements.in requirements.in
-    @uv pip install -r dev-requirements.txt
+# Sync production dependencies only
+sync-prod:
+    @echo "Syncing production dependencies..."
+    @uv sync --no-dev
 
-# Install production dependencies
-deps:
-    @echo "Compiling and Installing requirements.txt..."
-    @uv pip compile -o requirements.txt requirements.in
-    @uv pip install -r requirements.txt
+# Add a production dependency
+add *packages:
+    @uv add {{packages}}
+
+# Add a development dependency
+add-dev *packages:
+    @uv add --group dev {{packages}}
+
+# Remove a dependency
+remove *packages:
+    @uv remove {{packages}}
 
 # Build the server
 build:
