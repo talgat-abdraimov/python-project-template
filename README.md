@@ -10,9 +10,9 @@ This is a highly opinionated template for Python projects that provides a solid 
 
 Before you begin, ensure you have the following installed:
 
-- Python 3.10 or higher
+- Python 3.12 or higher
 
-- [uv](https://github.com/astral-sh/uv) - Fast Python package installer
+- [uv](https://github.com/astral-sh/uv) - Fast Python package manager
 - [just](https://github.com/casey/just) - Command runner
 - Docker and Docker Compose - For containerization
 
@@ -36,30 +36,22 @@ Before you begin, ensure you have the following installed:
    ```
    Then open the project in your favorite IDE.
 
-8. Install the package installer [uv](https://github.com/astral-sh/uv):
+8. Install [uv](https://github.com/astral-sh/uv):
    ```bash
    pip install uv
    ```
 
-9. Create and activate a virtual environment:
+9. Sync dependencies (creates virtual environment automatically):
    ```bash
-   uv venv
-   source .venv/bin/activate  # On Unix/macOS
-   # or
-   .venv\Scripts\activate     # On Windows
+   just sync
    ```
 
-10. Install development dependencies:
-    ```bash
-    just dev-deps
-    ```
-
-11. Build the Docker container:
+10. Build the Docker container:
     ```bash
     just build
     ```
 
-12. Start the application:
+11. Start the application:
     ```bash
     just up
     ```
@@ -72,8 +64,8 @@ python-project-template/
 ├── src/                  # Source code
 ├── tests/                # Test files
 ├── .pre-commit-config.yaml  # Pre-commit hooks configuration
-├── dev-requirements.in   # Development dependencies
-├── requirements.in       # Production dependencies
+├── pyproject.toml        # Project config, dependencies, tool settings
+├── uv.lock              # Dependency lock file
 ├── justfile             # Just commands
 └── docker-compose.yml   # Docker configuration
 ```
@@ -84,15 +76,19 @@ The following commands are available in the justfile:
 
 | Command | Description |
 |---------|-------------|
-| `venv` | Create a virtual environment |
-| `dev-deps` | Install development dependencies |
-| `deps` | Install production dependencies |
+| `sync` | Sync all dependencies (creates .venv automatically) |
+| `sync-prod` | Sync production dependencies only |
+| `add <pkg>` | Add a production dependency |
+| `add-dev <pkg>` | Add a development dependency |
+| `remove <pkg>` | Remove a dependency |
 | `build` | Build the Docker container |
 | `up` | Start the application |
 | `stop` | Stop the application |
 | `down` | Stop and remove containers |
-| `ruff` | Run code linting and formatting |
+| `lint` | Run code linting and formatting |
 | `test` | Run tests |
+| `check` | Run lint + test |
+| `clean` | Clean cache and temporary files |
 
 ## Development Tools
 
@@ -126,7 +122,7 @@ The pytest framework makes it easy to write small, readable tests, and can scale
 
 ### uv
 
-An extremely fast Python package installer and resolver, written in Rust. Designed as a drop-in replacement for common pip and pip-tools workflows.
+An extremely fast Python package manager and project tool, written in Rust. Manages dependencies, virtual environments, and lock files natively.
 
 [see more](https://github.com/astral-sh/uv)
 

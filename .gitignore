@@ -165,3 +165,7 @@ cython_debug/
 .local/
 
 *.override.yml
+
+# Legacy dependency files (managed by uv in pyproject.toml now)
+requirements.txt
+dev-requirements.txt

@@ -16,9 +16,7 @@ This is **python-project-template** - a template repository for creating new Pyt
 
 ### Setup
 ```bash
-uv venv                    # Create virtual environment
-source .venv/bin/activate  # Activate (macOS/Linux)
-just dev-deps              # Install development dependencies
+just sync                  # Install all dependencies (creates .venv automatically)
 ```
 
 ### Development Workflow
@@ -41,14 +39,15 @@ just logs -f               # Follow logs
 ```
 
 ### Dependency Management
-Dependencies are managed using `uv` with `.in` files:
+Dependencies are managed using `uv` with native project management via `pyproject.toml`:
 ```bash
-# Add to requirements.in or dev-requirements.in, then:
-just deps                  # Compile and install production dependencies
-just dev-deps              # Compile and install dev dependencies
+just add <package>         # Add production dependency
+just add-dev <package>     # Add development dependency
+just remove <package>      # Remove a dependency
+just sync                  # Sync environment after manual pyproject.toml edits
 ```
 
-The `just dev-deps` command automatically compiles both `requirements.txt` and `dev-requirements.txt` from their `.in` files.
+The `uv.lock` file is committed for reproducible builds.
 
 ## Testing
 
@@ -95,12 +94,7 @@ When a new repository is created from this template, `.github/workflows/new-repo
    - `<description>` → repository description (or default)
    - `<owner>` → repository owner
    - `<date>` → current date
-5. **Configures branch protection**: Sets up main branch protection requiring:
-   - Pull request reviews (1 approver required)
-   - Stale review dismissal
-   - Conversation resolution before merge
-   - No force pushes or deletions
-6. **Self-destructs**: Removes the workflow file itself
+5. **Self-destructs**: Removes the workflow file itself
 
 ### File Naming Strategy
 
@@ -113,7 +107,8 @@ This separation prevents conflicts between template development and target repos
 ### Docker Configuration
 
 The Docker setup uses:
-- **Base image**: `python:3.12.0-slim-bookworm`
+- **Base image**: `python:3.13-slim-bookworm`
+- **uv**: Installed via multi-stage copy from `ghcr.io/astral-sh/uv:latest`
 - **Non-root user**: Runs as user ID 1000 for security
 - **Volume mount**: `./src:/app/src` for development hot-reload
 - **Network**: Uses external `app-network` (must be created manually: `docker network create app-network`)
@@ -124,13 +119,13 @@ The default command is `echo "Hello, world!"` - intended to be overridden in tar
 ### Dependency Structure
 
 ```
-requirements.in          → requirements.txt (compiled by uv)
-dev-requirements.in      → dev-requirements.txt (compiled by uv)
-  ↓ includes
-requirements.in
+pyproject.toml             # All dependencies declared here
+  ├── [project].dependencies       # Production deps
+  └── [dependency-groups].dev      # Dev deps (PEP 735)
+uv.lock                    # Lock file for reproducible builds
 ```
 
-Development dependencies automatically include production dependencies via `-r requirements.in`.
+`uv sync` resolves and installs all dependencies. Dev dependencies automatically include production dependencies.
 
 ## Modifying the Template
 
@@ -162,7 +157,7 @@ Keep it generic and easily removable by users.
 
 ## Code Quality Standards
 
-- **Python version**: 3.13+ (updated from 3.10)
+- **Python version**: 3.13+
 - **Type hints**: Required for all functions
 - **Docstrings**: Required for modules, classes, and public functions
 - **Formatting**: Automated with Ruff
@@ -174,7 +169,7 @@ Keep it generic and easily removable by users.
 - **Scope**: Only runs on files in `src/` directory (configured via `files: ^src/`)
 - **Fail fast**: Stops on first error for faster feedback
 - **Branch protection**: Blocks direct commits to main/master/develop
-- **Python version**: Uses Python 3.12 for pre-commit hooks
+- **Python version**: Uses Python 3.13 for pre-commit hooks
 
 ## Platform Support
 

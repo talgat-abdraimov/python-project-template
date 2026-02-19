@@ -4,14 +4,14 @@ This document helps AI assistants (like Claude) understand your project structur
 
 ## Project Overview
 
-**Repository**: <reponame>  
+**Repository**: <reponame>
 **Description**: <description>
 
 This project is built on a modern Python template with best practices and modern tooling. The project is designed to be framework-agnostic and provides a solid foundation for building Python applications.
 
 ### Tech Stack
-- **Python**: 3.10+
-- **Package Manager**: `uv` (fast Rust-based package installer)
+- **Python**: 3.12+
+- **Package Manager**: `uv` (fast Rust-based package manager with native project support)
 - **Task Runner**: `just` (command runner for project tasks)
 - **Testing**: `pytest`
 - **Code Quality**: `ruff` (linting and formatting)
@@ -25,8 +25,8 @@ This project is built on a modern Python template with best practices and modern
 ├── src/                        # Application source code
 ├── tests/                      # Test files (pytest)
 ├── .pre-commit-config.yaml    # Pre-commit hooks configuration
-├── dev-requirements.in        # Development dependencies
-├── requirements.in            # Production dependencies
+├── pyproject.toml             # Project config, dependencies, and tool settings
+├── uv.lock                    # Dependency lock file (reproducible builds)
 ├── justfile                   # Command definitions (similar to Makefile)
 └── docker-compose.yml         # Docker container configuration
 ```
@@ -40,7 +40,7 @@ When helping with this project, AI assistants should:
 1. **Understand the Context**
    - Review the repository name (<reponame>) and description
    - Check existing code in `src/` to understand the project domain
-   - Look at `requirements.in` to see dependencies and infer architecture
+   - Look at `pyproject.toml` to see dependencies and infer architecture
 
 2. **Follow Existing Patterns**
    - Match the code style of existing files
@@ -48,7 +48,7 @@ When helping with this project, AI assistants should:
    - Follow the established project structure
 
 3. **Maintain Quality Standards**
-   - All code must pass `just ruff`
+   - All code must pass `just lint`
    - All features need tests that pass `just test`
    - Type hints are mandatory
    - Docstrings are required
@@ -58,24 +58,23 @@ When helping with this project, AI assistants should:
 **Adding New Dependencies:**
 ```bash
 # Production dependency
-echo "package-name" >> requirements.in
-just deps
+just add package-name
 
 # Development dependency
-echo "package-name" >> dev-requirements.in
-just dev-deps
-```
+just add-dev package-name
 
-**Important**: Always add dependencies to `.in` files, not `.txt` files. The `uv` tool will compile them.
+# Sync after manual pyproject.toml edits
+just sync
+```
 
 ### Code Quality Standards
 
 This project enforces high code quality through:
 
 1. **Ruff**: Fast linting and formatting
-   - Run before committing: `just ruff`
+   - Run before committing: `just lint`
    - Ruff replaces multiple tools (black, isort, flake8, etc.)
-   
+
 2. **Pre-commit hooks**: Automatic checks on commit
    - Install: `pre-commit install`
    - Manually run: `pre-commit run --all-files`
@@ -91,15 +90,18 @@ When working with this project, use these commands:
 
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
-| `just venv` | Create virtual environment | Initial setup |
-| `just dev-deps` | Install dev dependencies | After cloning, adding dev deps |
-| `just deps` | Install production dependencies | After adding production deps |
+| `just sync` | Sync all dependencies | Initial setup, after adding deps |
+| `just sync-prod` | Sync production deps only | Production deployments |
+| `just add <pkg>` | Add production dependency | Adding new packages |
+| `just add-dev <pkg>` | Add dev dependency | Adding dev tools |
+| `just remove <pkg>` | Remove a dependency | Removing packages |
 | `just build` | Build Docker container | When Docker config changes |
 | `just up` | Start application | Running the app |
 | `just stop` | Stop application | Pausing the app |
 | `just down` | Stop and remove containers | Clean shutdown |
-| `just ruff` | Lint and format code | Before committing |
+| `just lint` | Lint and format code | Before committing |
 | `just test` | Run all tests | Before committing, in CI |
+| `just check` | Run lint + test | Final pre-commit check |
 
 ## AI Development Guidelines
 
@@ -127,7 +129,7 @@ When working with this project, use these commands:
 
 **Always Run Quality Checks:**
 ```bash
-just ruff  # Format and lint
+just lint  # Format and lint
 just test  # Run tests
 ```
 
@@ -152,10 +154,10 @@ from typing import Any
 
 def my_function(param: str) -> dict[str, Any]:
     """Function description.
-    
+
     Args:
         param: Description of parameter
-        
+
     Returns:
         Description of return value
     """
@@ -187,7 +189,7 @@ def test_my_function_edge_case():
 When suggesting new packages:
 1. Check if the package is necessary
 2. Prefer well-maintained, popular packages
-3. Add to appropriate `.in` file
+3. Use `just add <package>` or `just add-dev <package>`
 4. Document why the dependency is needed
 
 ### Docker Development
@@ -234,14 +236,13 @@ When suggesting new packages:
 **Adding a Feature:**
 1. Create module in `src/`
 2. Write tests in `tests/`
-3. Add dependencies to `requirements.in` if needed
-4. Run `just deps` (if dependencies added)
-5. Run `just ruff` and `just test`
-6. Commit (pre-commit hooks will run)
+3. Add dependencies if needed: `just add <package>`
+4. Run `just lint` and `just test`
+5. Commit (pre-commit hooks will run)
 
 **Debugging Issues:**
 1. Check test output: `just test -v`
-2. Check linting: `just ruff`
+2. Check linting: `just lint`
 3. Check Docker logs: `docker-compose logs`
 4. Verify dependencies: `uv pip list`
 
@@ -249,7 +250,7 @@ When suggesting new packages:
 - [ ] Code has type hints
 - [ ] Code has docstrings
 - [ ] Tests are written
-- [ ] `just ruff` passes
+- [ ] `just lint` passes
 - [ ] `just test` passes
 - [ ] No hardcoded secrets
 - [ ] Dependencies documented
@@ -282,7 +283,7 @@ When suggesting new packages:
 
 ### Web Framework (if adding)
 If adding Flask, FastAPI, or Django:
-- Add framework to `requirements.in`
+- Add framework via `just add fastapi` (or equivalent)
 - Update `docker-compose.yml` with appropriate ports
 - Configure application in `src/`
 - Add health check endpoints
@@ -291,7 +292,7 @@ If adding Flask, FastAPI, or Django:
 ### Database (if adding)
 If adding database support:
 - Choose ORM (SQLAlchemy, Tortoise, etc.)
-- Add to `requirements.in`
+- Add via `just add sqlalchemy`
 - Create `migrations/` directory
 - Add database service to `docker-compose.yml`
 - Use environment variables for connection strings
@@ -309,10 +310,10 @@ If building CLI tool:
 
 **Common Issues:**
 
-1. **Import Errors**: Ensure virtual environment is activated
-2. **Dependencies Not Found**: Run `just deps` or `just dev-deps`
+1. **Import Errors**: Run `just sync` to ensure environment is set up
+2. **Dependencies Not Found**: Run `just sync`
 3. **Tests Failing**: Check test output, verify fixtures
-4. **Ruff Errors**: Run `just ruff` to auto-fix formatting
+4. **Ruff Errors**: Run `just lint` to auto-fix formatting
 5. **Docker Issues**: Rebuild with `just build`
 
 ## Additional Resources
@@ -323,6 +324,6 @@ If building CLI tool:
 
 ---
 
-**For AI Assistants**: This document provides context about the project structure, conventions, and best practices. When helping users, prioritize code quality, testing, and following the established patterns. Always suggest running `just ruff` and `just test` before committing code. Reference this document when making architectural decisions or suggesting new features.
+**For AI Assistants**: This document provides context about the project structure, conventions, and best practices. When helping users, prioritize code quality, testing, and following the established patterns. Always suggest running `just lint` and `just test` before committing code. Reference this document when making architectural decisions or suggesting new features.
 
 **Last Updated**: <date>
