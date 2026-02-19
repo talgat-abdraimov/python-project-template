@@ -113,7 +113,7 @@ jobs:
             # Commit the changes
             git config user.name github-actions[bot]
             git config user.email github-actions[bot]@users.noreply.github.com
-            git add CLAUDE.md CLAUDE.md
+            git add CLAUDE.md TEMPLATE_CLAUDE.md
             git commit -m "Create CLAUDE.md from template with repository information"
             git push
 
