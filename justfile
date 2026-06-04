@@ -1,3 +1,7 @@
+# List available commands
+default:
+    @just --list
+
 # Sync all dependencies (creates .venv automatically)
 sync:
     @echo "Syncing dependencies..."
