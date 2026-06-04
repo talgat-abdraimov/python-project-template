@@ -93,6 +93,7 @@ jobs:
             sed -i "s|<description>|${REPO_DESC}|g" AGENTS.md
 
             rm -f TEMPLATE_AGENTS.md
+            git rm -r -q --ignore-unmatch docs/superpowers
 
             git config user.name github-actions[bot]
             git config user.email github-actions[bot]@users.noreply.github.com
