@@ -30,6 +30,7 @@ jobs:
           fi
 
       - name: Delete LICENSE file
+        if: steps.check.outputs.initial_commit == 'true'
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
