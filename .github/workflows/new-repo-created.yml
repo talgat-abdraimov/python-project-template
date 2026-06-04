@@ -46,25 +46,31 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-          echo "# ${{github.event.repository.name}} project :wave:" > README.md
-          echo "---" >> README.md
-          echo "## Usage" >> README.md
-          echo "" >> README.md
-          echo '1. Clone the project: ```git clone git@github.com:${{github.repository_owner}}/${{github.event.repository.name}}.git```' >> README.md
-          echo "" >> README.md
-          echo '2. Go to the project folder: ```cd ${{github.event.repository.name}}```' >> README.md
-          echo "" >> README.md
-          echo '3. Install [uv](https://github.com/astral-sh/uv): ```pip install uv```' >> README.md
-          echo "" >> README.md
-          echo '4. Sync dependencies: ```just sync```' >> README.md
-          echo "" >> README.md
-          echo '5. Build the Docker container: ```just build```' >> README.md
-          echo "" >> README.md
-          echo '6. Start the application: ```just up```' >> README.md
-          echo "" >> README.md
-          echo '7. Install pre-commit hooks: ```pre-commit install```' >> README.md
-          echo "" >> README.md
-          echo "> **Note:** This project has been tested and verified only on macOS. While it may work on other operating systems, we cannot guarantee full compatibility." >> README.md
+          cat > README.md << 'EOF'
+          # REPO_NAME_PLACEHOLDER project :wave:
+
+          ## Usage
+
+          1. Clone the project: `git clone git@github.com:REPO_OWNER_PLACEHOLDER/REPO_NAME_PLACEHOLDER.git`
+          2. Enter it: `cd REPO_NAME_PLACEHOLDER`
+          3. Install [uv](https://github.com/astral-sh/uv) and [just](https://github.com/casey/just)
+          4. `just sync` — install dependencies (creates .venv)
+          5. `pre-commit install` — enable git hooks
+          6. `just check` — verify everything passes
+          7. `just up` — start the app
+
+          ## Commands
+
+          Run `just` to list all available commands.
+
+          ## AI agents
+
+          `AGENTS.md` carries project context for AI coding agents (Codex, Cursor, Copilot, Gemini). `CLAUDE.md` points Claude Code at the same file.
+
+          > **Note:** Tested on macOS. Should work on Linux; Windows not guaranteed.
+          EOF
+          sed -i "s|REPO_NAME_PLACEHOLDER|${{ github.event.repository.name }}|g" README.md
+          sed -i "s|REPO_OWNER_PLACEHOLDER|${{ github.repository_owner }}|g" README.md
           git add README.md
           git commit -m "Changed README.md"
           git push
