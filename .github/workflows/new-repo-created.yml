@@ -71,13 +71,13 @@ jobs:
 
       - name: Create AGENTS.md
         if: steps.check.outputs.initial_commit == 'true'
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+          REPO_DESC: ${{ github.event.repository.description }}
         run: |
           if [ -f "TEMPLATE_AGENTS.md" ]; then
             rm -f AGENTS.md
             cp TEMPLATE_AGENTS.md AGENTS.md
-
-            REPO_NAME="${{ github.event.repository.name }}"
-            REPO_DESC="${{ github.event.repository.description }}"
 
             if [ -z "$REPO_DESC" ]; then
               REPO_DESC="A Python project built with modern tooling and best practices"
