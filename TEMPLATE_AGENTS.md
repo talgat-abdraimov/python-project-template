@@ -18,7 +18,8 @@ Bare `just` lists all commands. Add deps with `just add <pkg>` / `just add-dev <
 ## Stack
 
 - Python 3.13, managed by `uv` (`uv.lock` committed)
-- Lint/format: ruff — single quotes, line length 110, isort rules included
+- Style: Google Python Style Guide, strictly — overrides: single quotes, line length 100
+- Lint/format: ruff — enforces the above plus Google-convention docstrings (`D` rules: every public module/class/function needs one)
 - Tests: pytest, `asyncio_mode = auto` (no `@pytest.mark.asyncio` needed), coverage fails under 80%
 - Docker: `python:3.13-slim-bookworm`, non-root user, `src/` volume-mounted for hot reload
 
@@ -41,6 +42,7 @@ Rule: business logic lives only in `service.py` files. Transport files (routers,
 ## Rules
 
 - Type hints on all function signatures
+- Readability first: separate logical blocks with blank lines — after guard clauses, after setup, between distinct phases of a function
 - After every change run `just check`; fix until green before committing
 - Pre-commit hooks only scan `src/`; direct commits to main/master/develop are blocked
 - Never commit secrets; env vars go in `.env` (gitignored)

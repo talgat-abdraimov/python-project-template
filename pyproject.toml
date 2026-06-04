@@ -9,7 +9,7 @@ dependencies = []
 dev = ["pytest", "pytest-asyncio", "pytest-cov", "pre-commit", "ruff"]
 
 [tool.ruff]
-line-length = 110
+line-length = 100
 indent-width = 4
 exclude = [
     ".bzr",
@@ -64,11 +64,15 @@ select = [
     "B",
     "A",
     "C4",
+    "D",
 ]
 ignore = ["TD003"]
 fixable = ["ALL"]
 unfixable = []
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.ruff.lint.isort]
 section-order = [
