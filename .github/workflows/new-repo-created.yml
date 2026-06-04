@@ -69,58 +69,32 @@ jobs:
           git commit -m "Changed README.md"
           git push
 
-      - name: Update Claude.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create AGENTS.md
         if: steps.check.outputs.initial_commit == 'true'
         run: |
-          # Check if TEMPLATE_CLAUDE.md exists
-          if [ -f "TEMPLATE_CLAUDE.md" ]; then
-            echo "📝 Creating CLAUDE.md from template..."
+          if [ -f "TEMPLATE_AGENTS.md" ]; then
+            rm -f AGENTS.md
+            cp TEMPLATE_AGENTS.md AGENTS.md
 
-            # Remove template's development guide (prevents conflicts on case-insensitive filesystems)
-            rm -f CLAUDE.md
-
-            # Copy template to CLAUDE.md
-            cp TEMPLATE_CLAUDE.md CLAUDE.md
-
-            # Get repository information
             REPO_NAME="${{ github.event.repository.name }}"
             REPO_DESC="${{ github.event.repository.description }}"
-            REPO_OWNER="${{ github.repository_owner }}"
-            CURRENT_DATE=$(date +"%Y-%m-%d")
 
-            # Use a default description if empty
             if [ -z "$REPO_DESC" ]; then
               REPO_DESC="A Python project built with modern tooling and best practices"
             fi
 
-            # Replace placeholders in CLAUDE.md
-            sed -i "s|<reponame>|${REPO_NAME}|g" CLAUDE.md
-            sed -i "s|<description>|${REPO_DESC}|g" CLAUDE.md
-            sed -i "s|<owner>|${REPO_OWNER}|g" CLAUDE.md
-            sed -i "s|<date>|${CURRENT_DATE}|g" CLAUDE.md
+            sed -i "s|<reponame>|${REPO_NAME}|g" AGENTS.md
+            sed -i "s|<description>|${REPO_DESC}|g" AGENTS.md
 
-            # Show the changes
-            echo "✨ Created and updated CLAUDE.md with:"
-            echo "  📦 Repository: ${REPO_NAME}"
-            echo "  📝 Description: ${REPO_DESC}"
-            echo "  👤 Owner: ${REPO_OWNER}"
-            echo "  📅 Date: ${CURRENT_DATE}"
+            rm -f TEMPLATE_AGENTS.md
 
-            # Remove the template file
-            rm -f TEMPLATE_CLAUDE.md
-
-            # Commit the changes
             git config user.name github-actions[bot]
             git config user.email github-actions[bot]@users.noreply.github.com
-            git add CLAUDE.md TEMPLATE_CLAUDE.md
-            git commit -m "Create CLAUDE.md from template with repository information"
+            git add AGENTS.md TEMPLATE_AGENTS.md
+            git commit -m "Create AGENTS.md from template"
             git push
-
-            echo "✅ Successfully created and updated CLAUDE.md"
           else
-            echo "⚠️ TEMPLATE_CLAUDE.md not found, skipping CLAUDE.md creation..."
+            echo "TEMPLATE_AGENTS.md not found, skipping..."
           fi
 
       - name: Remove current workflow
