@@ -11,8 +11,3 @@ services:
     environment:
       <<: *common-variables
     command: echo "Hello, world!"
-
-networks:
-  default:
-    name: app-network
-    external: true
